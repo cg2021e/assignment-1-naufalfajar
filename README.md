@@ -3,6 +3,6 @@
 # Jar
 I want to draw a jar
 ![Jar1](assets/Jar1.jpg)
-![Jar1](assets/Jar2.jpg)
-![Jar1](assets/Jar3.jpg)
-![Jar1](assets/Jar4.jpg)
+![Jar2](assets/Jar2.jpg)
+![Jar3](assets/Jar3.jpg)
+![Jar4](assets/Jar4.jpg)
