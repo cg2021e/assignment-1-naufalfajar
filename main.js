@@ -2,68 +2,84 @@ function main() {
     //Access the canvas through DOM: Document Object Model
     var canvas = document.getElementById('myCanvas');   // The paper
     var gl = canvas.getContext('webgl');                // The brush and the paints
-
+    
     var init_left_vertices = [
         // x y R G B
-        -0.6, -0.55, 1.0, 1.0, 1.0,     //leftdownfoot
-        -0.4, -0.55, 1.0, 1.0, 1.0,     //rightdownfoot
+        -0.5,  0.15, 0.0, 0.0, 0.78,     //uphead
+        -0.65,  0.1, 0.0, 0.0, 0.78,     //leftuphead
 
-        -0.7, -0.45, 1.0, 1.0, 1.0,     // leftdownbody
-        -0.3, -0.45, 1.0, 1.0, 1.0,      // rightdownbody
+        -0.35,  0.1, 0.0, 0.0, 0.78,     //rightuphead
+        -0.65,  0.0, 0.0, 0.0, 0.78,     //leftdownhead
 
-        -0.7, 0.2, 1.0, 1.0, 1.0,     // leftupbody
-        -0.3, 0.2, 1.0, 1.0, 1.0,     // rightupbody
-
-        -0.65,  0.3, 0.0, 0.0, 1.0,     //leftdownhead
-        -0.35,  0.3, 0.0, 0.0, 1.0,     //rightdownhead
+        -0.35,  0.0, 0.0, 0.0, 1.0,     //rightdownhead
+        -0.5, -0.05, 0.0, 0.0, 1.0,     // downhead
         
-        -0.65,  0.4, 0.0, 0.0, 1.0,     //leftuphead
-        -0.35,  0.4, 0.0, 0.0, 1.0      //rightuphead
+        -0.3, -0.1, 1.0, 1.0, 1.0,     // rightupbody
+        -0.7, -0.1, 1.0, 1.0, 1.0,     // leftupbody
+
+        -0.35, -0.45, 0.7, 0.7, 0.7,      // rightdownbody
+        -0.65, -0.45, 0.7, 0.7, 0.7,     // leftdownbody
+
+        -0.4, -0.55, 0.8, 0.8, 0.8,     //rightdownfoot
+        -0.6, -0.55, 0.8, 0.8, 0.8,     //leftdownfoot
     ];
     var init_right_vertices = [
         // x y R G B
-        0.6, -0.55, 1.0, 1.0, 1.0,     //leftdownfoot
-        0.4, -0.55, 1.0, 1.0, 1.0,     //rightdownfoot
+        0.6, -0.55, 0.9, 0.9, 0.9,     //leftdownfoot
+        0.4, -0.55, 0.9, 0.9, 0.9,     //rightdownfoot
 
-        0.7, -0.45, 1.0, 1.0, 1.0,     // leftdownbody
-        0.3, -0.45, 1.0, 1.0, 1.0,      // rightdownbody
+        0.7, -0.45, 0.7, 0.7, 0.7,     // leftdownbody
+        0.3, -0.45, 0.7, 0.7, 0.7,      // rightdownbody
 
         0.7, 0.2, 1.0, 1.0, 1.0,     // leftupbody
         0.3, 0.2, 1.0, 1.0, 1.0,     // rightupbody
 
-        0.65,  0.3, 0.0, 0.0, 1.0,     //leftdownhead
-        0.35,  0.3, 0.0, 0.0, 1.0,     //rightdownhead
+        0.65,  0.3, 0.0, 0.0, 0.78,     //leftdownhead
+        0.35,  0.3, 0.0, 0.0, 0.78,     //rightdownhead
         
-        0.65,  0.4, 0.0, 0.0, 1.0,     //leftuphead
-        0.35,  0.4, 0.0, 0.0, 1.0      //rightuphead
+        0.65,  0.4, 0.0, 0.0, 0.78,     //leftuphead
+        0.35,  0.4, 0.0, 0.0, 0.9      //rightuphead
     ];
 
     //Generate triangles from init_vertices
     var right_vertices = [];
     var left_vertices = [];
-    // let count = 10;
+    //kanan
     for (let i = 0; i < 8; i++)//total
     {
         count = i*5;
         for(let k = 0; k < 3; k++) //triangle
             {
-                // if(k==1) count = count - 15;
                 for(let j = 0; j < 5; j++) //X Y R G B
                     {
                         right_vertices[(i*15) + (k*5) + j] = init_right_vertices[count];
+
+                        //triangle include tutup biar GAK biru
+                        if((i==4 || i==5) && (count%5==2 || count%5==3)) 
+                            right_vertices[(i*15) + (k*5) + j] = 1;
+                        count++;
+                    }
+            }
+    }  
+    
+    //kiri
+    for (let i = 0; i < 10; i++)//total
+    {
+        count = i*5;
+        for(let k = 0; k < 3; k++) //triangle
+            {
+                for(let j = 0; j < 5; j++) //X Y R G B
+                    {
                         left_vertices[(i*15) + (k*5) + j] = init_left_vertices[count];
 
                         //triangle include tutup biar GAK biru
                         if((i==4 || i==5) && (count%5==2 || count%5==3)) 
-                            {
-                                left_vertices[(i*15) + (k*5) + j] = 1.0;
-                                right_vertices[(i*15) + (k*5) + j] = 1.0;
-                            }
+                            left_vertices[(i*15) + (k*5) + j] = 1;
                         count++;
                     }
             }
-        // count = count + 5;
-    }   
+    }
+    left_vertices.push(-0.5, -0.05, 1.0, 1.0, 1.0,  -0.65,  0.0, 1.0, 1.0, 1.0,  -0.7, -0.1, 1.0, 1.0, 1.0) ;
     var vertices = [...left_vertices,...right_vertices]; 
     
 
@@ -159,7 +175,7 @@ function main() {
 
         gl.uniformMatrix4fv(uTranslate, false, rightPosition);
         gl.drawArrays(gl.TRIANGLES, left_vertices.length/5, right_vertices.length/5);
-                
+
         requestAnimationFrame(render);
     }
     render();   
