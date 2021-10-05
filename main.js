@@ -41,12 +41,13 @@ function main() {
     //Generate triangles from init_vertices
     var right_vertices = [];
     var left_vertices = [];
-    let count = 10;
+    // let count = 10;
     for (let i = 0; i < 8; i++)//total
     {
+        count = i*5;
         for(let k = 0; k < 3; k++) //triangle
             {
-                if(k==1) count = count - 15;
+                // if(k==1) count = count - 15;
                 for(let j = 0; j < 5; j++) //X Y R G B
                     {
                         right_vertices[(i*15) + (k*5) + j] = init_right_vertices[count];
@@ -61,7 +62,7 @@ function main() {
                         count++;
                     }
             }
-        count = count + 5;
+        // count = count + 5;
     }   
     var vertices = [...left_vertices,...right_vertices]; 
     
@@ -124,14 +125,15 @@ function main() {
     gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
     gl.enableVertexAttribArray(aColor);
 
-    var speed = 0.0176;
+    var speed = 0.0007;
     var dy = 0;
     // Create a uniform to animate the vertices
     const uTranslate = gl.getUniformLocation(shaderProgram, 'uTranslate');
     
     function render() {
         //control the bouncing range
-        if (dy >= 0.75 || dy <= -0.55) speed = -speed;
+        if (dy >= 0.6 || dy <= -0.45) 
+            speed = -speed;
 		dy += speed;
         
         const rightPosition = [
@@ -139,29 +141,26 @@ function main() {
 		0.0, 1.0, 0.0, 0.0,
 		0.0, 0.0, 1.0, 0.0,
 		0, dy, 0.0, 1.0,
-	]   
+	    ]   
 
-	const leftPosition = [
+	    const leftPosition = [
 		1.0, 0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0, 0.0,
 		0.0, 0.0, 1.0, 0.0,
 		0, 0.0, 0.0, 1.0,
-	]
+	    ]
 		
         //coloring canvas
-	gl.clearColor(0.87, 0.87, 0.87, 1); 
-	gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.clearColor(0.87, 0.87, 0.87, 1); 
+        gl.clear(gl.COLOR_BUFFER_BIT);
 
         gl.uniformMatrix4fv(uTranslate, false, leftPosition);
         gl.drawArrays(gl.TRIANGLES, 0, left_vertices.length/5);
 
-		gl.uniformMatrix4fv(uTranslate, false, rightPosition);
+        gl.uniformMatrix4fv(uTranslate, false, rightPosition);
         gl.drawArrays(gl.TRIANGLES, left_vertices.length/5, right_vertices.length/5);
-            
+                
         requestAnimationFrame(render);
     }
     render();   
-   
-    
-   
 }
