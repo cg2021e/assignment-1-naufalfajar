@@ -1,4 +1,5 @@
 function main() {
+    //end
     //Access the canvas through DOM: Document Object Model
     var canvas = document.getElementById('myCanvas');   // The paper
     var gl = canvas.getContext('webgl');                // The brush and the paints
